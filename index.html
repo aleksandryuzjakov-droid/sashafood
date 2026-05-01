@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Саша Food</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f6f6f6;
+      color: #222;
+    }
+    header {
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 18px rgba(0,0,0,.07);
+    }
+    .top {
+      max-width: 1160px;
+      margin: auto;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .logo {
+      font-size: 26px;
+      font-weight: 900;
+    }
+    .logo span { color: #f8c600; }
+    .hero {
+      max-width: 1160px;
+      margin: 24px auto;
+      padding: 32px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, #ffe066, #ffcc00);
+      display: grid;
+      grid-template-columns: 1.5fr .8fr;
+      gap: 20px;
+      align-items: center;
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: 44px;
+      line-height: 1;
+    }
+    .hero p {
+      font-size: 18px;
+      opacity: .8;
+    }
+    .heroEmoji {
+      font-size: 110px;
+      text-align: center;
+      filter: drop-shadow(0 14px 16px rgba(0,0,0,.18));
+    }
+    .wrap {
+      max-width: 1160px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 22px;
+      padding: 0 18px 40px;
+    }
+    .categories {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .cat {
+      border: 0;
+      background: #fff;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,.06);
+    }
+    .cat.active {
+      background: #222;
+      color: #fff;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 14px;
+      box-shadow: 0 6px 22px rgba(0,0,0,.06);
+      transition: .2s;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .pic {
+      height: 150px;
+      border-radius: 18px;
+      background: #f3f3f3;
+      display: grid;
+      place-items: center;
+      font-size: 64px;
+    }
+    .card h3 {
+      margin: 12px 0 6px;
+      font-size: 18px;
+    }
+    .desc {
+      color: #777;
+      min-height: 38px;
+      font-size: 14px;
+    }
+    .priceRow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .price {
+      font-size: 20px;
+      font-weight: 900;
+    }
+    .btn {
+      border: 0;
+      background: #ffcc00;
+      color: #222;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .btn:hover { filter: brightness(.96); }
+    .cart {
+      background: #fff;
+      border-radius: 28px;
+      padding: 20px;
+      box-shadow: 0 6px 22px rgba(0,0,0,.06);
+      position: sticky;
+      top: 88px;
+      height: fit-content;
+    }
+    .cart h2 { margin-top: 0; }
+    .cartItem {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+      font-size: 14px;
+    }
+    .total {
+      font-size: 22px;
+      font-weight: 900;
+      margin: 16px 0;
+    }
+    label {
+      display: block;
+      font-weight: 800;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+    input, select {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 15px;
+      background: #fff;
+    }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .empty {
+      color: #888;
+      padding: 10px 0;
+    }
+    .notice {
+      background: #fff7c2;
+      border-radius: 16px;
+      padding: 12px;
+      font-size: 14px;
+      margin: 12px 0;
+    }
+    @media (max-width: 850px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 34px; }
+      .wrap { grid-template-columns: 1fr; }
+      .cart { position: static; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="logo">Саша <span>Food</span></div>
+    <b>🍔 Доставка по ЖК Акватория</b>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <h1>Еда рядом, заказ в пару кликов</h1>
+    <p>Роллы, шаурма, закуски и напитки. Выбирай адрес кнопками — без приколов и мусора 😎</p>
+  </div>
+  <div class="heroEmoji">🍣🌯🍟</div>
+</section>
+
+<main class="wrap">
+  <section>
+    <div class="categories">
+      <button class="cat active" data-cat="all">Все</button>
+      <button class="cat" data-cat="rolls">🍣 Роллы</button>
+      <button class="cat" data-cat="shawarma">🌯 Шаурма</button>
+      <button class="cat" data-cat="snacks">🍟 Закуски</button>
+      <button class="cat" data-cat="drinks">🥤 Напитки</button>
+    </div>
+    <div id="products" class="products"></div>
+  </section>
+
+  <aside class="cart">
+    <h2>Корзина</h2>
+    <div id="cartList" class="empty">Пока пусто</div>
+    <div class="total" id="total">0 ₽</div>
+
+    <label>Имя</label>
+    <input id="name" placeholder="Например: Саша" />
+
+    <label>Дом</label>
+    <select id="house" onchange="updateAddressSelects()"></select>
+
+    <div class="grid2">
+      <div>
+        <label>Подъезд</label>
+        <select id="entrance"></select>
+      </div>
+      <div>
+        <label>Этаж</label>
+        <select id="floor"></select>
+      </div>
+    </div>
+
+    <label>Квартира</label>
+    <select id="apartment"></select>
+
+    <div class="notice">После заказа откроется страница статуса. Ты в Telegram меняешь статус кнопками, а клиент видит это на сайте.</div>
+
+    <button class="btn" style="width:100%;font-size:16px" onclick="sendOrder()">Оформить заказ</button>
+  </aside>
+</main>
+
+<script>
+const products = [
+  {id:1, name:"Филадельфия", price:399, category:"rolls", emoji:"🍣", desc:"Лосось, сыр, рис"},
+  {id:2, name:"Калифорния", price:349, category:"rolls", emoji:"🍱", desc:"Краб, огурец, икра"},
+  {id:3, name:"Запечённый ролл", price:429, category:"rolls", emoji:"🔥", desc:"Горячий ролл с соусом"},
+  {id:4, name:"Шаурма классическая", price:249, category:"shawarma", emoji:"🌯", desc:"Курица, овощи, соус"},
+  {id:5, name:"Шаурма сырная", price:279, category:"shawarma", emoji:"🧀", desc:"Много сыра и соуса"},
+  {id:6, name:"Картошка фри", price:149, category:"snacks", emoji:"🍟", desc:"Хрустящая картошка"},
+  {id:7, name:"Наггетсы", price:199, category:"snacks", emoji:"🍗", desc:"6 штук"},
+  {id:8, name:"Кола", price:99, category:"drinks", emoji:"🥤", desc:"0.5 л"},
+  {id:9, name:"Морс", price:119, category:"drinks", emoji:"🧃", desc:"Домашний напиток"}
+];
+
+const houseConfig = {
+  "2": { entrances: 4, floors: 10 },
+  "4": { entrances: 4, floors: 10 },
+  "6": { entrances: 1, floors: 7 },
+  "8": { entrances: 2, floors: 10 },
+  "10": { entrances: 5, floors: 10 },
+  "12": { entrances: 4, floors: 10 },
+  "10 к 1": { entrances: 7, floors: 10 },
+  "14": { entrances: 4, floors: 10 }
+};
+
+let currentCat = "all";
+let cart = [];
+
+document.querySelectorAll(".cat").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentCat = btn.dataset.cat;
+    renderProducts();
+  };
+});
+
+function renderProducts() {
+  const box = document.getElementById("products");
+  box.innerHTML = "";
+  products.filter(p => currentCat === "all" || p.category === currentCat).forEach(p => {
+    box.innerHTML += `
+      <div class="card">
+        <div class="pic">${p.emoji}</div>
+        <h3>${p.name}</h3>
+        <div class="desc">${p.desc}</div>
+        <div class="priceRow">
+          <div class="price">${p.price} ₽</div>
+          <button class="btn" onclick="addToCart(${p.id})">+</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  cart.push(p);
+  renderCart();
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  renderCart();
+}
+
+function renderCart() {
+  const list = document.getElementById("cartList");
+  if (!cart.length) {
+    list.className = "empty";
+    list.innerHTML = "Пока пусто";
+  } else {
+    list.className = "";
+    list.innerHTML = cart.map((item, i) => `
+      <div class="cartItem">
+        <span>${item.emoji} ${item.name}</span>
+        <b>${item.price} ₽ <button onclick="removeFromCart(${i})">×</button></b>
+      </div>
+    `).join("");
+  }
+  const sum = cart.reduce((a,b) => a + b.price, 0);
+  document.getElementById("total").textContent = sum + " ₽";
+}
+
+function fillSelect(select, count, prefix = "") {
+  select.innerHTML = "";
+  for (let i = 1; i <= count; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = prefix ? `${prefix} ${i}` : i;
+    select.appendChild(option);
+  }
+}
+
+function initAddress() {
+  const house = document.getElementById("house");
+  house.innerHTML = "";
+  Object.keys(houseConfig).forEach(h => {
+    const option = document.createElement("option");
+    option.value = h;
+    option.textContent = `Дом ${h}`;
+    house.appendChild(option);
+  });
+  updateAddressSelects();
+}
+
+function updateAddressSelects() {
+  const selectedHouse = document.getElementById("house").value;
+  const cfg = houseConfig[selectedHouse];
+  fillSelect(document.getElementById("entrance"), cfg.entrances, "Подъезд");
+  fillSelect(document.getElementById("floor"), cfg.floors, "Этаж");
+  fillSelect(document.getElementById("apartment"), 300, "Квартира");
+}
+
+function getFullAddress() {
+  return `ЖК Акватория, дом ${house.value}, подъезд ${entrance.value}, этаж ${floor.value}, квартира ${apartment.value}`;
+}
+
+async function sendOrder() {
+  const name = document.getElementById("name").value.trim();
+  if (name.length < 2) return alert("Введи имя");
+  if (!cart.length) return alert("Добавь еду в корзину");
+
+  const order = {
+    name,
+    address: getFullAddress(),
+    items: cart.map(x => ({ name: x.name, price: x.price, emoji: x.emoji })),
+    total: cart.reduce((a,b) => a + b.price, 0)
+  };
+
+  const res = await fetch("/api/order", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(order)
+  });
+
+  const data = await res.json();
+  if (!data.ok) return alert(data.error || "Ошибка заказа");
+
+  localStorage.setItem("lastOrderId", data.orderId);
+  location.href = `/status.html?id=${data.orderId}`;
+}
+
+renderProducts();
+renderCart();
+initAddress();
+</script>
+</body>
+</html>
